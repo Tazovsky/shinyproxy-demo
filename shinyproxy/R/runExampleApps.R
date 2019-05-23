@@ -3,7 +3,7 @@
 #' @return no return value
 #' @importFrom shiny runApp
 #' @export
-run_01_hello <- function(){
+run_01_hello <- function(port = getOption("shiny.port")){
 
   shinyTmpDir <- tempdir()
   
@@ -17,7 +17,7 @@ run_01_hello <- function(){
             overwrite = TRUE, recursive = TRUE)}
   )
   
-  runApp(appDir = shinyTmpDir)
+  runApp(appDir = shinyTmpDir, port = port)
 
 }
 

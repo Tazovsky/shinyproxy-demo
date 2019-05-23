@@ -21,9 +21,14 @@ COPY shinyproxy_0.0.1.tar.gz /root/
 RUN R CMD INSTALL /root/shinyproxy_0.0.1.tar.gz
 RUN rm /root/shinyproxy_0.0.1.tar.gz
 
+COPY shinyproxy /shinyproxy
+RUN R CMD INSTALL /shinyproxy
+
 # set host and port
 COPY Rprofile.site /usr/lib/R/etc/
 
 EXPOSE 3838
 
-CMD ["R", "-e", "shinyproxy::run_01_hello()"]
+ENV PORT=3839
+
+CMD ["R", "-e", "shinyproxy::run_01_hello(as.numeric(Sys.getenv(\"PORT\")))"]
