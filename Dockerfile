@@ -1,6 +1,6 @@
 FROM openanalytics/r-base
 
-MAINTAINER Tobias Verbeke "tobias.verbeke@openanalytics.eu"
+MAINTAINER Tobias Verbeke "Tazovsky"
 
 RUN apt-get update && apt-get install -y \
     sudo \
