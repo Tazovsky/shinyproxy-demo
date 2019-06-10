@@ -1,23 +1,36 @@
+# Run shiny app in singularity container
 
-# ShinyProxy Demo Image
+In singularity we have recipes, which are files to define custom containers. So I made simple one from modified example shinyproxy docker image:
 
-To pull the image made in this repository from Docker Hub, use
+ ```
+Bootstrap: docker
+
+From: kfoltynski/shinyproxy-demo:singularity
+
+
+%runscript
+
+    echo "Running Shiny app on port $*"
+
+    exec R -e "shinyproxy::run_01_hello($@)"
+ ```
+
+Then container needs to be build:
 
 ```
-sudo docker pull openanalytics/shinyproxy-demo
+ sudo singularity build shiny.simg Singularity.recipe
 ```
 
-The relevant Docker Hub repository can be found at
-
-
-https://hub.docker.com/r/openanalytics/shinyproxy-demo
-
-
-To build the image from the Dockerfile, navigate into the root directory of this repository and run
-
+and then container can be run with custom port of app:
 
 ```
-sudo docker build -t openanalytics/shinyproxy-demo .
+singularity run shiny.simg 3839
 ```
 
-(c) Copyright Open Analytics NV, 2016-2019.
+or started as system service:
+
+```
+singularity instance start shiny.simg shiny 3839
+
+```
+**NOTE**: Building image from recipe requires `sudo`.
